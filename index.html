@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	</head>
+	<body>
+		Hello World
+		<div id="temp"></div>
+		<div id="hum"></div>
+
+
+
+
+
+
+		<script>
+
+			var wm = [90,70,60,40];
+			
+
+
+
+			
+			var holder = wm;
+
+			var high = holder[0];
+			var low = holder[1];
+			var extObj;
+			// info.json
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function()  {
+			  if (this.readyState == 4 && this.status == 200) {
+			    extObj =  JSON.parse(this.responseText);
+			    ////put your json processing code here or call a function
+			    //document.getElementById("named").innerHTML = extObj.temp;
+				process(extObj.temp,extObj.hum);
+			  }
+			};
+			xmlhttp.open("GET", "sense.json", true);
+			xmlhttp.send();
+
+
+			function process(temp,hum){
+				var temp2 = conv(temp);
+				if (temp2>high){
+					document.getElementById("temp").style.background = "red";
+					document.getElementById("temp").innerHTML = temp2;
+				}
+				else if (temp2<low){
+					document.getElementById("temp").style.background = "blue";
+					document.getElementById("temp").innerHTML = temp2;
+				}
+				else {
+					document.getElementById("temp").style.background = "green";
+					document.getElementById("temp").innerHTML = temp2;
+				}
+
+			}
+			function conv(temp){
+				var newer = (temp*9/5)+32
+				return newer;
+			}
+			
+		</script>
+
+	</body>
+</html>
