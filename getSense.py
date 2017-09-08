@@ -1,3 +1,4 @@
+#Created for grove pi running v1.2 sensors, needed to update firmware.
 from grovepi import *
 from time import sleep
 
