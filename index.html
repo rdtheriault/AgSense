@@ -7,7 +7,12 @@
 		Hello World
 		<div id="temp"></div>
 		<div id="hum"></div>
-
+		<select id="rain">
+		<option value="wm">Watermelon</option>
+		<option value="corn">Corn</option>
+		<option value="wh">Wheat</option>
+		<option value="pt">Potato</option>
+		</select>
 
 
 
@@ -16,28 +21,60 @@
 		<script>
 
 			var wm = [90,70,60,40];
-			
-
-
-
-			
-			var holder = wm;
-
-			var high = holder[0];
-			var low = holder[1];
+			var corn = [0, 1, 2, 3];
+			var wh = [0, 1, 2, 3];
+			var pt = [1, 2, 4, 6];
+			var holder;
+			var high;
+			var low;
+			var wet;
+			var dry;
 			var extObj;
 			// info.json
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.onreadystatechange = function()  {
-			  if (this.readyState == 4 && this.status == 200) {
-			    extObj =  JSON.parse(this.responseText);
-			    ////put your json processing code here or call a function
-			    //document.getElementById("named").innerHTML = extObj.temp;
-				process(extObj.temp,extObj.hum);
-			  }
-			};
-			xmlhttp.open("GET", "sense.json", true);
-			xmlhttp.send();
+			getJson();
+
+			function getJson() {
+
+
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function()  {
+				  if (this.readyState == 4 && this.status == 200) {
+				    extObj =  JSON.parse(this.responseText);
+				    ////put your json processing code here or call a function
+				    //document.getElementById("named").innerHTML = extObj.temp;
+					process(extObj.temp,extObj.hum);
+				  }
+				};
+				xmlhttp.open("GET", "sense.json", true);
+				xmlhttp.send();
+			}
+
+
+
+
+			document.getElementById('rain').addEventListener('change', getCrop);
+
+
+
+
+			function getCrop() {
+				var crop = document.getElementById('rain').value;
+				if (crop == 'wm') {
+					holder = wm;
+				} else if (crop == 'corn') {
+					holder = corn;
+				} else if (crop == 'wh') {
+					holder = wh;
+				} else {
+					holder = pt;
+				}
+				high = holder[0];
+				low = holder[1];
+				wet = holder[2];
+				dry = holder[3];
+				getJson();
+
+			}
 
 
 			function process(temp,hum){
