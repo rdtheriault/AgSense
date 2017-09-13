@@ -13,6 +13,8 @@
 		<option value="wh">Wheat</option>
 		<option value="pt">Potato</option>
 		</select>
+		<div id="temp2"></div>
+		<div id="hum2"></div>
 
 
 
@@ -75,6 +77,7 @@
 				getJson();
 
 			}
+			
 
 
 			function process(temp,hum){
@@ -97,7 +100,32 @@
 				var newer = (temp*9/5)+32
 				return newer;
 			}
-			
+
+
+
+			function getJson() {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function()  {
+				  if (this.readyState == 4 && this.status == 200) {
+				    extObj =  JSON.parse(this.responseText);
+				    ////put your json processing code here or call a function
+					var tempHolder = extObj.main.temp;
+					var temp = tempHolder * 9/5  - 459.67
+				    document.getElementById("temp2").innerHTML = temp;
+					//T(K) × 9/5 - 459.67
+					document.getElementById("hum2").innerHTML = extObj.main.humidity;
+				  }
+				};
+				xmlhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=97838,us&APPID=304801c51fcd1b780fa5eca5256b7db9", true);
+				xmlhttp.send();
+			}
+			getJson();
+
+
+
+
+
+
 		</script>
 
 	</body>
