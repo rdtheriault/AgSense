@@ -1,0 +1,82 @@
+@font-face{
+     font-family:banana;
+      src:url(BANAAN.TTF);
+  }
+
+
+.progress {
+							 height: 200px;
+					 }
+.progress > svg {
+			height: 100%;
+			display: block;
+}
+
+
+#outer_wrapper {
+
+	display: flex;
+
+}
+
+
+
+
+
+#Top_blackbar {
+	background-color: black;
+	display: flex;
+	width: 100%;
+	align-items: center;
+  justify-content: center;
+
+}
+
+
+#AGSENSE {
+
+	width: 100%;
+
+
+}
+
+
+#body {
+
+background-color: #121010;
+
+}
+
+.dividers {
+
+text-align: center;
+font-size: 28px;
+font-family: banana;
+color: #ffffff;
+
+}
+
+
+
+.circle {
+
+	height: 90px;
+	width: 90px;
+	border-radius:50%;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+}
+
+
+
+#high {
+	border: 2.5px red solid;
+}
+
+#low {
+
+	border: 2.5px blue solid;
+	margin-top: 10px;
+
+}
+
