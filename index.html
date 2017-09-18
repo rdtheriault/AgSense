@@ -1,29 +1,97 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<head>
+	<title>Welcome to AG Sense</title>
+	<link rel="stylesheet" href="stylesheet.css">
+	<script src="jquery.min.js"> </script>
 
-	</head>
-	<body>
-		Hello World
-		<div id="temp"></div>
-		<div id="hum"></div>
-		<select id="rain">
-		<option value="wm">Watermelon</option>
-		<option value="corn">Corn</option>
-		<option value="wh">Wheat</option>
-		<option value="pt">Potato</option>
-		</select>
-		<div id="temp2"></div>
-		<div id="hum2"></div>
+</head>
+<body id="body">
+	<select id="rain">
+			<option value="wm">Watermelon</option>
+			<option value="corn">Corn</option>
+			<option value="wh">Wheat</option>
+			<option value="pt">Potato</option>
+			</select>
+
+		<div class="dividers" id="tempw"></div>
+		<div class="dividers" id="hum"></div>
+		<div class="dividers" id="temp2"></div>
+		<div class="dividers" id="hum2"></div>
+
+<!-- <div class="progress" id="progress"></div> -->
+
+
+
+
+	<div id="Top_blackbar">
+<div><img id="AGSENSE" src="AGSENSE.png"></div>
+
+</div>
+
+
+
+	<div id="holder">
+
+		<div id="sub_holder">
+
+
+				<div id="outer_wrapper">
+					<div id="tempz">
+					<div class="progress" id="progress"></div>
+					<div class="dividers" id="temp"></div>
+					</div>
+
+					<div>
+						<div class="circle" id="high"></div>
+					<div class="circle" id="low"></div>
+				</div>
+
+				</div>
+
+
+
+				<div id="weather">
+					</div>
+
+		</div>
+
+		<div id="hum">
+		</div>
 
 
 
 
 
-		<script>
+
+
+
+
+</div>
+</div>
+
+<script src="progressbar.min.js"> </script>
+<script>
+
+
+		var circle = new ProgressBar.Circle('#progress', {
+				color: '#00ff00',
+				duration: 2000,
+				easing: 'easeInOut'
+		});
+
+
+//CHANGE THE COLOR OF THE CIRCLE!!!!!
+//circle.path.setAttribute('stroke', "#663399");
+
+		//circle.animate(0.5);
+
+
+
+
 
 			var wm = [90,70,60,40];
-			var corn = [0, 1, 2, 3];
+			var corn = [86, 65, 2, 3];
 			var wh = [0, 1, 2, 3];
 			var pt = [1, 2, 4, 6];
 			var holder;
@@ -34,10 +102,7 @@
 			var extObj;
 			// info.json
 			getJson();
-
 			function getJson() {
-
-
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.onreadystatechange = function()  {
 				  if (this.readyState == 4 && this.status == 200) {
@@ -47,18 +112,15 @@
 					process(extObj.temp,extObj.hum);
 				  }
 				};
-				xmlhttp.open("GET", "sense.json", true);
+				xmlhttp.open("GET", "http://10.80.46.40/sense.json?nocache=" + (new Date()).getTime(), true);
 				xmlhttp.send();
+
+
+
+				//THIS IS RESPOSIBLE FOR PREVENTING JSON FILE CACHING!!!!
+				//el.src = 'mySaveFiles.json?nocache=' + (new Date()).getTime();
 			}
-
-
-
-
 			document.getElementById('rain').addEventListener('change', getCrop);
-
-
-
-
 			function getCrop() {
 				var crop = document.getElementById('rain').value;
 				if (crop == 'wm') {
@@ -75,58 +137,53 @@
 				wet = holder[2];
 				dry = holder[3];
 				getJson();
-
 			}
-			
-
 
 			function process(temp,hum){
 				var temp2 = conv(temp);
 				if (temp2>high){
-					document.getElementById("temp").style.background = "red";
+					//document.getElementById("temp").style.background = "red";
+					circle.path.setAttribute('stroke', "red");
 					document.getElementById("temp").innerHTML = temp2;
 				}
 				else if (temp2<low){
-					document.getElementById("temp").style.background = "blue";
+					//document.getElementById("temp").style.background = "blue";
+					circle.path.setAttribute('stroke', "blue");
 					document.getElementById("temp").innerHTML = temp2;
 				}
 				else {
-					document.getElementById("temp").style.background = "green";
+					//document.getElementById("temp").style.background = "green";
+					circle.path.setAttribute('stroke', "green");
 					document.getElementById("temp").innerHTML = temp2;
 				}
 
+				circle.animate(temp2/110);
 			}
 			function conv(temp){
 				var newer = (temp*9/5)+32
 				return newer;
 			}
-
-
-
-			function getJson() {
+			function getJson2() {
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.onreadystatechange = function()  {
 				  if (this.readyState == 4 && this.status == 200) {
 				    extObj =  JSON.parse(this.responseText);
 				    ////put your json processing code here or call a function
-					var tempHolder = extObj.main.temp;
-					var temp = tempHolder * 9/5  - 459.67
+						var tempHolder = extObj.main.temp;
+						var temp = tempHolder * 9/5  - 459.67
 				    document.getElementById("temp2").innerHTML = temp;
-					//T(K) × 9/5 - 459.67
-					document.getElementById("hum2").innerHTML = extObj.main.humidity;
+						document.getElementById("hum2").innerHTML = extObj.main.humidity;
 				  }
 				};
 				xmlhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=97838,us&APPID=304801c51fcd1b780fa5eca5256b7db9", true);
 				xmlhttp.send();
 			}
-			getJson();
+			getJson2();
 
 
 
+</script>
 
-
-
-		</script>
-
-	</body>
+</body>
 </html>
+
