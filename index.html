@@ -22,74 +22,72 @@
 <!-- <div class="progress" id="progress"></div> -->
 
 
-
-
-	<div id="Top_blackbar">
-<div><img id="AGSENSE" src="AGSENSE.png"></div>
+<div id="Top_blackbar">
+	<div><img id="AGSENSE" src="AGSENSE.png"></div>
 
 </div>
 
 
-
-	<div id="holder">
+<div id="holder">
 
 		<div id="sub_holder">
 
 
 				<div id="outer_wrapper">
-					<div id="tempz">
-					<div class="progress" id="progress"></div>
-					<div class="dividers" id="temp"></div>
+					<div id="tempz" class="wrapper">
+						<div class="inner_wrapper">
+							<div class="progress" id="progress"></div>
+							<div class="dividers" id="temp"></div>
+						</div>
 					</div>
 
-					<div>
-						<div class="circle" id="high"></div>
-					<div class="circle" id="low"></div>
-				</div>
+					<div class="img_holder wrapper">
+						<div class="inner_wrapper">
+								<div class="circlez"><img class="circle" src="red_circle.png"><div class="highlow" id="high-num"></div></div>
+								<div class="circlez"><img class="circle" src="blue_circle.png"><div class="highlow" id="low-num"></div></div>
+							</div>
+					</div>
 
 				</div>
-
-
 
 				<div id="weather">
-					</div>
+					<div class="progress" id="progress2"></div>
+				</div>
 
 		</div>
 
 		<div id="hum">
+				<div id="bar"></div>
 		</div>
 
 
-
-
-
-
-
-
-
 </div>
-</div>
+<!-- </div> -->
 
 <script src="progressbar.min.js"> </script>
 <script>
 
-
+		//The bar that animates the external temp//
 		var circle = new ProgressBar.Circle('#progress', {
 				color: '#00ff00',
 				duration: 2000,
 				easing: 'easeInOut'
 		});
 
+		//Open weather API aniamtion bar//
+		var circle2 = new ProgressBar.Circle('#progress2', {
+				color: '#ffd587',
+				duration: 2000,
+				easing: 'easeInOut'
+		});
 
-//CHANGE THE COLOR OF THE CIRCLE!!!!!
-//circle.path.setAttribute('stroke', "#663399");
-
-		//circle.animate(0.5);
-
-
+		//The bar itself that animates the temp//
+		var bar = new ProgressBar.Line('#bar', {
+			easing: 'easeInOut'
+		});
 
 
-
+			//Plant temperature/humidity data//
 			var wm = [90,70,60,40];
 			var corn = [86, 65, 2, 3];
 			var wh = [0, 1, 2, 3];
@@ -100,8 +98,8 @@
 			var wet;
 			var dry;
 			var extObj;
-			// info.json
-			getJson();
+
+			// THE API TO GET TEMP AND HUMIDITY FROM externally!!//
 			function getJson() {
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.onreadystatechange = function()  {
@@ -115,11 +113,11 @@
 				xmlhttp.open("GET", "http://10.80.46.40/sense.json?nocache=" + (new Date()).getTime(), true);
 				xmlhttp.send();
 
-
-
 				//THIS IS RESPOSIBLE FOR PREVENTING JSON FILE CACHING!!!!
 				//el.src = 'mySaveFiles.json?nocache=' + (new Date()).getTime();
 			}
+
+			//Dropdown listener and function to change the crop values//
 			document.getElementById('rain').addEventListener('change', getCrop);
 			function getCrop() {
 				var crop = document.getElementById('rain').value;
@@ -136,9 +134,12 @@
 				low = holder[1];
 				wet = holder[2];
 				dry = holder[3];
+				document.getElementById("high-num").innerHTML=high;
+				document.getElementById("low-num").innerHTML=low;
 				getJson();
 			}
 
+			//Plant temp warning indications//
 			function process(temp,hum){
 				var temp2 = conv(temp);
 				if (temp2>high){
@@ -156,13 +157,17 @@
 					circle.path.setAttribute('stroke', "green");
 					document.getElementById("temp").innerHTML = temp2;
 				}
-
+				bar.animate(hum/100);
 				circle.animate(temp2/110);
 			}
+
+			//Celsius to Farenheit conversion (MATH)//
 			function conv(temp){
 				var newer = (temp*9/5)+32
 				return newer;
 			}
+
+			//The API to get the open weather weather//
 			function getJson2() {
 				var xmlhttp = new XMLHttpRequest();
 				xmlhttp.onreadystatechange = function()  {
@@ -171,6 +176,7 @@
 				    ////put your json processing code here or call a function
 						var tempHolder = extObj.main.temp;
 						var temp = tempHolder * 9/5  - 459.67
+						circle2.animate(temp/110);
 				    document.getElementById("temp2").innerHTML = temp;
 						document.getElementById("hum2").innerHTML = extObj.main.humidity;
 				  }
@@ -178,9 +184,24 @@
 				xmlhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=97838,us&APPID=304801c51fcd1b780fa5eca5256b7db9", true);
 				xmlhttp.send();
 			}
+
+			//Runs all functions for the first time!//
+			getJson();
 			getJson2();
+			getCrop();
+			resize();
 
-
+			function resize() {
+			    if ( $(window).width() < 739) {
+			    	document.getElementById("sub_holder").style.display="block";
+						document.getElementById("outer_wrapper").style.width="100%";
+			    }
+			    else {
+			    	document.getElementById("sub_holder").style.display="flex";
+						document.getElementById("outer_wrapper").style.width="50%";
+			    }
+			}
+			$(window).on("resize", resize);
 
 </script>
 
