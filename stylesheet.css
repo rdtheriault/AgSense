@@ -1,24 +1,30 @@
-@font-face{
-     font-family:banana;
-      src:url(BANAAN.TTF);
+@font-face {
+  font-family:banana;
+  src:url(BANAAN.TTF);
   }
 
 
+
+
 .progress {
-							 height: 200px;
-					 }
-.progress > svg {
-			height: 100%;
-			display: block;
+height: 300px;
 }
+
+
+
+
+.progress > svg {
+ height: 100%;
+ display: block;
+}
+
+
 
 
 #outer_wrapper {
-
-	display: flex;
-
+display: flex;
+width: 50%;
 }
-
 
 
 
@@ -29,54 +35,119 @@
 	width: 100%;
 	align-items: center;
   justify-content: center;
-
+  margin-bottom: 30px;
 }
+
+
 
 
 #AGSENSE {
-
 	width: 100%;
-
-
 }
+
+
 
 
 #body {
-
 background-color: #121010;
-
+margin-left: 0px;
+margin-right: 0px;
 }
+
+
+
 
 .dividers {
-
 text-align: center;
-font-size: 28px;
+font-size: 3vw;
 font-family: banana;
 color: #ffffff;
-
 }
+
 
 
 
 .circle {
-
-	height: 90px;
-	width: 90px;
-	border-radius:50%;
-	-moz-border-radius:50%;
-	-webkit-border-radius:50%;
+width: 100%;
 }
 
 
 
-#high {
-	border: 2.5px red solid;
+
+#tempz {
+/*align-items: center;
+display: flex;*/
+width: 65%;
 }
 
-#low {
 
-	border: 2.5px blue solid;
-	margin-top: 10px;
 
+
+.wrapper {
+  display: table;
+  margin: auto;
 }
+
+
+
+
+#bar {
+height: 1vw;
+border: #ffd700 1px solid;
+}
+
+
+
+
+.inner_wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+
+
+.highlow {
+font-size: 2vw;
+color: white;
+font-family: banana;
+position: absolute;
+top: 50%;
+left: 44%;
+}
+
+
+
+
+.circlez {
+text-align: center;
+vertical-align: middle;
+line-height: 50%;
+width: 100%;
+padding-top: 15px;
+display: block;
+position: relative;
+}
+
+
+
+
+#sub_holder {
+display: flex;
+}
+
+
+
+
+.img_holder {
+width: 33%;
+}
+
+
+
+
+#weather {
+width: 48%;
+}
+
 
