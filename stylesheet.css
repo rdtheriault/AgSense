@@ -3,6 +3,21 @@
   src:url(BANAAN.TTF);
   }
 
+  @font-face {
+  font-family:corn;
+  src:url(corn.ttf);
+  }
+
+  @font-face {
+  font-family:melon;
+  src:url(melon.ttf);
+  }
+
+  @font-face {
+  font-family:strokes;
+  src:url(strokes.ttf);
+  }
+
 
 
 
@@ -92,8 +107,18 @@ width: 65%;
 
 
 #bar {
-height: 1vw;
+  height: 1vw;
 border: #ffd700 1px solid;
+margin-top: 100px;
+}
+
+
+
+#temp2 {
+text-align: center;
+
+
+
 }
 
 
@@ -108,12 +133,12 @@ border: #ffd700 1px solid;
 
 
 .highlow {
-font-size: 2vw;
+font-size: 6vw;
 color: white;
 font-family: banana;
 position: absolute;
 top: 50%;
-left: 44%;
+left: 38%;
 }
 
 
@@ -150,4 +175,10 @@ width: 33%;
 width: 48%;
 }
 
+#bartxt {
+text-align: center;
+font-family: banana;
+color: white;
 
+
+}
