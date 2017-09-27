@@ -3,6 +3,7 @@
 <head>
 	<title>Welcome to AG Sense</title>
 	<link rel="stylesheet" href="stylesheet.css">
+	<!--<script src="sense.json"></script><!-->
 	<script src="jquery.min.js"> </script>
 
 </head>
@@ -14,10 +15,6 @@
 			<option value="pt">Potato</option>
 			</select>
 
-		<div class="dividers" id="tempw"></div>
-		<div class="dividers" id="hum"></div>
-		<div class="dividers" id="temp2"></div>
-		<div class="dividers" id="hum2"></div>
 
 <!-- <div class="progress" id="progress"></div> -->
 
@@ -50,14 +47,18 @@
 
 				</div>
 
-				<div id="weather">
-					<div class="progress" id="progress2"></div>
+				<div id="weather" class="wrapper">
+					<div class="inner_wrapper">
+						<div class="progress" id="progress2"></div>
+						<div class="dividers" id="temp2"></div>
+					</div>
 				</div>
 
 		</div>
 
 		<div id="hum">
 				<div id="bar"></div>
+				<div id="bartxt"></div>
 		</div>
 
 
@@ -69,29 +70,33 @@
 
 		//The bar that animates the external temp//
 		var circle = new ProgressBar.Circle('#progress', {
+				strokeWidth: 2,
 				color: '#00ff00',
 				duration: 2000,
-				easing: 'easeInOut'
+				easing: 'bounce'
 		});
 
 		//Open weather API aniamtion bar//
 		var circle2 = new ProgressBar.Circle('#progress2', {
+			 	strokeWidth: 2,
 				color: '#ffd587',
 				duration: 2000,
-				easing: 'easeInOut'
+				easing: 'bounce'
 		});
 
 		//The bar itself that animates the temp//
 		var bar = new ProgressBar.Line('#bar', {
-			easing: 'easeInOut'
+			easing: 'bounce' ,
+			color: 'magenta',
+			duration: 2000
 		});
 
 
 			//Plant temperature/humidity data//
 			var wm = [90,70,60,40];
 			var corn = [86, 65, 2, 3];
-			var wh = [0, 1, 2, 3];
-			var pt = [1, 2, 4, 6];
+			var wh = [57, 40, 2, 3];
+			var pt = [80, 45, 4, 6];
 			var holder;
 			var high;
 			var low;
@@ -110,7 +115,8 @@
 					process(extObj.temp,extObj.hum);
 				  }
 				};
-				xmlhttp.open("GET", "http://10.80.46.40/sense.json?nocache=" + (new Date()).getTime(), true);
+				//xmlhttp.open("GET", "http://10.80.46.40/sense.json?nocache=" + (new Date()).getTime(), true);
+				xmlhttp.open("GET", "sense.json?nocache=" + (new Date()).getTime(), true);
 				xmlhttp.send();
 
 				//THIS IS RESPOSIBLE FOR PREVENTING JSON FILE CACHING!!!!
@@ -145,18 +151,19 @@
 				if (temp2>high){
 					//document.getElementById("temp").style.background = "red";
 					circle.path.setAttribute('stroke', "red");
-					document.getElementById("temp").innerHTML = temp2;
+					document.getElementById("temp").innerHTML = "Interior Temp: "+temp2+"&#176;";
 				}
 				else if (temp2<low){
 					//document.getElementById("temp").style.background = "blue";
 					circle.path.setAttribute('stroke', "blue");
-					document.getElementById("temp").innerHTML = temp2;
+					document.getElementById("temp").innerHTML = "Interior Temp: "+temp2+"&#176;";
 				}
 				else {
 					//document.getElementById("temp").style.background = "green";
 					circle.path.setAttribute('stroke', "green");
-					document.getElementById("temp").innerHTML = temp2;
+					document.getElementById("temp").innerHTML = "Interior Temp: "+temp2+"&#176;";
 				}
+				document.getElementById("bartxt").innerHTML = "Interior Humidity: "+hum+"%";
 				bar.animate(hum/100);
 				circle.animate(temp2/110);
 			}
@@ -177,8 +184,9 @@
 						var tempHolder = extObj.main.temp;
 						var temp = tempHolder * 9/5  - 459.67
 						circle2.animate(temp/110);
-				    document.getElementById("temp2").innerHTML = temp;
-						document.getElementById("hum2").innerHTML = extObj.main.humidity;
+						temp=Math.ceil(temp / 10) * 10;
+				    document.getElementById("temp2").innerHTML = "Outside Temp: "+temp+"&#176;";
+						//document.getElementById("hum2").innerHTML = extObj.main.humidity;
 				  }
 				};
 				xmlhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=97838,us&APPID=304801c51fcd1b780fa5eca5256b7db9", true);
@@ -191,20 +199,47 @@
 			getCrop();
 			resize();
 
+
 			function resize() {
-			    if ( $(window).width() < 739) {
-			    	document.getElementById("sub_holder").style.display="block";
-						document.getElementById("outer_wrapper").style.width="100%";
+					if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+							makesmall();
+					}
+			    else if ( $(window).width() < 739) {
+			    	makesmall();
 			    }
 			    else {
-			    	document.getElementById("sub_holder").style.display="flex";
-						document.getElementById("outer_wrapper").style.width="50%";
+			    	makebig();
 			    }
 			}
 			$(window).on("resize", resize);
+
+
+			function makesmall()  {
+
+				document.getElementById("sub_holder").style.display="block";
+				document.getElementById("outer_wrapper").style.width="100%";
+				$('.highlow').css('font-size', '6vw');
+				$('.dividers').css('font-size', '6vw');
+				$('#bartxt').css('font-size', '6vw');
+
+			}
+
+
+			function makebig()  {
+
+				document.getElementById("sub_holder").style.display="flex";
+				document.getElementById("outer_wrapper").style.width="50%";
+				$('.highlow').css('font-size', '3vw');
+				$('.dividers').css('font-size', '3vw');
+				$('#bartxt').css('font-size', '3vw');
+
+			}
+
+
+
+
 
 </script>
 
 </body>
 </html>
-
