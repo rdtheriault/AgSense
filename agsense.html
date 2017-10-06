@@ -8,6 +8,7 @@
 
 </head>
 <body id="body">
+	<div id="everything">
 	<select id="rain">
 			<option value="wm">Watermelon</option>
 			<option value="corn">Corn</option>
@@ -63,6 +64,7 @@
 
 
 </div>
+</div>
 <!-- </div> -->
 
 <script src="progressbar.min.js"> </script>
@@ -103,6 +105,8 @@
 			var wet;
 			var dry;
 			var extObj;
+			var json=localStorage.getItem("json");
+			var zip=localStorage.getItem("zip");
 
 			// THE API TO GET TEMP AND HUMIDITY FROM externally!!//
 			function getJson() {
@@ -116,7 +120,8 @@
 				  }
 				};
 				//xmlhttp.open("GET", "http://10.80.46.40/sense.json?nocache=" + (new Date()).getTime(), true);
-				xmlhttp.open("GET", "sense.json?nocache=" + (new Date()).getTime(), true);
+				//xmlhttp.open("GET", json + (new Date()).getTime(), true);
+				xmlhttp.open("GET", "proxy.php?url="+json+"?nocache="+ (new Date()).getTime(), true);
 				xmlhttp.send();
 
 				//THIS IS RESPOSIBLE FOR PREVENTING JSON FILE CACHING!!!!
@@ -184,12 +189,12 @@
 						var tempHolder = extObj.main.temp;
 						var temp = tempHolder * 9/5  - 459.67
 						circle2.animate(temp/110);
-						temp=Math.ceil(temp / 10) * 10;
+						temp=Math.round(temp);
 				    document.getElementById("temp2").innerHTML = "Outside Temp: "+temp+"&#176;";
 						//document.getElementById("hum2").innerHTML = extObj.main.humidity;
 				  }
 				};
-				xmlhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=97838,us&APPID=304801c51fcd1b780fa5eca5256b7db9", true);
+				xmlhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip="+zip+",us&APPID=304801c51fcd1b780fa5eca5256b7db9", true);
 				xmlhttp.send();
 			}
 
@@ -235,6 +240,11 @@
 
 			}
 
+			//"refreshh" every 10 seconds
+			setInterval(function(){
+				getJson();
+				getJson2();
+			},10000);
 
 
 
@@ -243,3 +253,4 @@
 
 </body>
 </html>
+
