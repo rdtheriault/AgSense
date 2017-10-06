@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+
+	.first
+	{
+		width: 250px;
+		height: 30px;
+		background: transparent;
+		border: 2px solid #ffffff;
+		border-radius: 50px;
+		color: #fff;
+		font-family: 'Exo', sans-serif;
+		font-size: 16px;
+		font-weight: 400;
+		padding: 4px;
+		margin: 10px;
+	}
+
+
+	body {
+
+			color: white;
+			font-family: sans-serif;
+			display: table-cell;
+			vertical-align: middle;
+			}
+			html, body
+			{
+			height: 100%;
+			}
+			html
+			{
+			display: table;
+			margin: auto;
+
+			background: url("final.jpg") no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+
+
+		}
+
+		#start {
+			text-align: center;
+		}
+
+		#enter {
+
+	transition: .5s ease;
+cursor: pointer;
+		}
+
+		#enter:hover {
+
+opacity: 0.3;
+
+		}
+
+
+	</style>
+
+	<title></title>
+</head>
+<body>
+	<div id="start">
+
+		JSON File Location: <input class="first" type="text" id="JSON_FILE_HERE"> <br>
+		ZIP CODE: <input class="first" type="text" id="LOCATION_ZIP_CODE"><br/>
+		<img id="enter" src="button.png">
+	</div>
+	<script>
+	document.getElementById("enter").addEventListener("click", initialize);
+	function initialize() {
+		var json=document.getElementById("JSON_FILE_HERE").value;
+		localStorage.setItem("json",json);
+		var zip=document.getElementById("LOCATION_ZIP_CODE").value;
+		localStorage.setItem("zip",zip);
+		window.location.replace("agsense.html")
+
+
+	}
+
+	</script>
+</body>
+</html>
+
