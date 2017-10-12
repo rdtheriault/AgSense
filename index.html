@@ -5,14 +5,15 @@
 
 	.first
 	{
+		outline: none;
 		width: 250px;
 		height: 30px;
 		background: transparent;
 		border: 2px solid #ffffff;
 		border-radius: 50px;
 		color: #fff;
-		font-family: 'Exo', sans-serif;
-		font-size: 16px;
+		font-family: 'ubuntu', sans-serif;
+		font-size: 18px;
 		font-weight: 400;
 		padding: 4px;
 		margin: 10px;
@@ -21,56 +22,104 @@
 
 	body {
 
-			color: white;
-			font-family: sans-serif;
-			display: table-cell;
-			vertical-align: middle;
-			}
-			html, body
-			{
-			height: 100%;
-			}
-			html
-			{
-			display: table;
-			margin: auto;
+		color: white;
+		font-family: 'ubuntu', sans-serif;
+		font-size: 18px;
+		display: table-cell;
+		vertical-align: middle;
+	}
+	html, body
+	{
+	height: 100%;
+	}
+	html
+	{
+	display: table;
+	margin: auto;
 
-			background: url("final.jpg") no-repeat center center fixed;
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
+	background: url("final.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 
 
-		}
+	}
 
-		#start {
-			text-align: center;
-		}
+	@font-face {
+	  font-family:ubuntu;
+	  src:url(OpenSans-Regular.TTF);
+	  }
 
-		#enter {
+	#start {
+		text-align: center;
+	}
 
-	transition: .5s ease;
-cursor: pointer;
-		}
+	#enter {
 
-		#enter:hover {
+		transition: .5s ease;
+		cursor: pointer;
+	}
 
-opacity: 0.3;
+	#enter:hover {
+		opacity: 0.3;
+	}
 
-		}
+	[data-tip] {
+		position:relative;
+	}
+	[data-tip]:before {
+		content:'';
+		/* hides the tooltip when not hovered */
+		display:none;
+		content:'';
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-bottom: 5px solid #1a1a1a;
+		position:absolute;
+		top:45px;
+		right:35px;
+		z-index:8;
+		font-size:0;
+		line-height:0;
+		width:0;
+		height:0;
+	}
+	[data-tip]:after {
+		display:none;
+		content:attr(data-tip);
+		position:absolute;
+		top:45px;
+		right:0px;
+		padding:5px 8px;
+		background:#1a1a1a;
+		color:#fff;
+		z-index:9;
+		font-size: 0.75em;
+		height:18px;
+		line-height:18px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		white-space:nowrap;
+		word-wrap:normal;
+	}
+	[data-tip]:hover:before,
+	[data-tip]:hover:after {
+		display:block;
+	}
 
 
 	</style>
 
-	<title></title>
+	<title>Welcome to AgSense</title>
 </head>
 <body>
 	<div id="start">
 
-		JSON File Location: <input class="first" type="text" id="JSON_FILE_HERE"> <br>
+		<div data-tip="Remember to add http:// or https://">JSON File Location: <input class="first" type="text" id="JSON_FILE_HERE"></div>
 		ZIP CODE: <input class="first" type="text" id="LOCATION_ZIP_CODE"><br/>
-		<img id="enter" src="button.png">
+		<img draggable="false" id="enter" src="button.png">
 	</div>
 	<script>
 	document.getElementById("enter").addEventListener("click", initialize);
